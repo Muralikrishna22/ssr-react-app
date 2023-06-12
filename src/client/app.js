@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function app() {
+function App() {
     const [text, setText] = useState('Hello world')
     return (
         <div>
@@ -10,4 +10,4 @@ function app() {
     )
 }
 
-export default app
+export default App

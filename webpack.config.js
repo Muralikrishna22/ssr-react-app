@@ -63,13 +63,7 @@ module.exports = {
     //     }),
     //     // new BundleAnalyzerPlugin(),
     //   ],
-    output: {
-        path: path.resolve(__dirname, "./dist"),
-        filename: "[name].[contenthash].js",
-        chunkFilename: "[name].[contenthash].chunk.js",
-        clean: true,
-        assetModuleFilename: "assets/[name][ext][query]",
-    },
+    mode: "development",
     module: {
         rules: [
             {
@@ -98,7 +92,6 @@ module.exports = {
             // },
         ],
     },
-    mode: "development",
     devtool: "inline-source-map",
     devServer: {
         static: {
@@ -107,6 +100,14 @@ module.exports = {
         historyApiFallback: true,
         open: true,
         hot: true,
-        port: 8080,
+        port: 3000,
+    },
+    output: {
+        path: path.resolve(__dirname, "./dist"),
+        filename: "[name].js",
+        // chunkFilename: "[name].[contenthash].chunk.js",
+        // clean: true,
+        // assetModuleFilename: "assets/[name][ext][query]",
+        publicPath: `http://localhost:3000/`
     },
 }

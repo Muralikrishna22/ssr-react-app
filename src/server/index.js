@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.get('/*', (req, res) => {
     const content = HtmlTemplate();
-    return res.status(200).send(content);
+    res.status(200).send(content);
 });
 
 app.listen(port, () => {

@@ -1,8 +1,6 @@
-import React from 'react'
-import App from '../client/app'
-import { renderToString } from 'react-dom/server'
-
-
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import App from '../client/App';
 
 const HtmlTemplate = () => {
     return `
@@ -13,7 +11,7 @@ const HtmlTemplate = () => {
             <meta name="theme-color" content="#000000" />
             <meta name="description" content="Web site created using create-react-app" />
             <title>React App</title>
-            <link href="/static/css/main.073c9b0a.css" rel="stylesheet">
+            <script src="http://localhost:3000/main.js"></script>
             </head>
             <body>
             <div id="root">${renderToString(<App />)}</div>
