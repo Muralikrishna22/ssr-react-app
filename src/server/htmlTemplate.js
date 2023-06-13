@@ -11,6 +11,8 @@ const HtmlTemplate = () => {
             <meta name="theme-color" content="#000000" />
             <meta name="description" content="Web site created using create-react-app" />
             <title>React App</title>
+            <link rel="manifest" href="/manifest.json" />
+            <link rel="manifest" href="/favicon.ico">
             <script src="http://localhost:3000/main.js"></script>
             </head>
             <body>
