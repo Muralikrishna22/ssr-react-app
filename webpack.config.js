@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
@@ -12,6 +13,23 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
+    plugins: [new MiniCssExtractPlugin({
+        filename: 'styles.css',
+    })],
+    // create chunks for css
+    // optimization: {
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             styles: {
+    //                 name: 'styles',
+    //                 test: /\.css$/,
+    //                 chunks: 'all',
+    //                 enforce: true,
+    //             },
+    //         },
+    //     },
+    // },
+
     module: {
         rules: [
             {
@@ -23,6 +41,15 @@ module.exports = {
                         presets: ['@babel/preset-react', '@babel/preset-env'],
                     },
                 },
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    'css-loader'
+                ],
             },
         ],
     },

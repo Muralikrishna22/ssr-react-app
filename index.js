@@ -6,7 +6,7 @@ require("@babel/register")({
             "css-modules-transform",
             {
                 extractCss: {
-                    dir: "./dist/_react/stylesheets/",
+                    dir: "./dist",
                     relativeRoot: "./src/",
                     filename: "[path]/[name].css",
                 },

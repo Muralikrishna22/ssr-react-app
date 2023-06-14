@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import App from '../client/App';
+import App from '../client/app';
 
 const HtmlTemplate = () => {
     return `
@@ -13,7 +13,8 @@ const HtmlTemplate = () => {
             <title>React App</title>
             <link rel="manifest" href="/manifest.json" />
             <link rel="manifest" href="/favicon.ico">
-            <script src="http://localhost:3000/main.js"></script>
+            <script src="http://localhost:3000/bundle.js"></script>
+            <link rel="stylesheet" href="styles.css">
             </head>
             <body>
             <div id="root">${renderToString(<App />)}</div>
