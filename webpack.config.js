@@ -1,161 +1,66 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const nodeExternals = require('webpack-node-externals');
 
-module.exports = {
-    entry: {
-        main: [
-            "@babel/polyfill",
-            path.resolve(__dirname, "./src/client/index.js"),
-        ],
-    },
-    mode: 'development',
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-    },
-    plugins: [new MiniCssExtractPlugin({
-        filename: 'styles.css',
-    })],
-    // create chunks for css
-    // optimization: {
-    //     splitChunks: {
-    //         cacheGroups: {
-    //             styles: {
-    //                 name: 'styles',
-    //                 test: /\.css$/,
-    //                 chunks: 'all',
-    //                 enforce: true,
-    //             },
-    //         },
-    //     },
-    // },
+const config = (entry, outputPath, target) => {
+    return {
+        entry: {
+            main: [
+                "@babel/polyfill",
+                path.resolve(__dirname, entry),
+            ],
+        },
+        mode: 'development',
+        output: {
+            filename: 'bundle.js',
+            path: path.resolve(__dirname, outputPath),
+        },
+        // externals: [nodeExternals()],
+        plugins: [new MiniCssExtractPlugin({
+            filename: 'styles.css',
+        })],
+        target,
+        // create chunks for css
+        // optimization: {
+        //     splitChunks: {
+        //         cacheGroups: {
+        //             styles: {
+        //                 name: 'styles',
+        //                 test: /\.css$/,
+        //                 chunks: 'all',
+        //                 enforce: true,
+        //             },
+        //         },
+        //     },
+        // },
 
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-react', '@babel/preset-env'],
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-react', '@babel/preset-env'],
+                        },
                     },
                 },
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                    },
-                    'css-loader'
-                ],
-            },
-        ],
-    },
-};
+                {
+                    test: /\.css$/,
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                        },
+                        'css-loader'
+                    ],
+                },
+            ],
+        }
+    }
+}
 
+const client = config('./src/client/index.js', 'dist/client', 'web')
+const server = config('./src/server/index.js', 'dist/server', 'node')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// module.exports = {
-//     entry: {
-//         main: [
-//             "@babel/polyfill",
-//             path.resolve(__dirname, "./src/client/index.js"),
-//         ],
-//     },
-//     //   plugins: [
-//     //     // new webpack.DefinePlugin({
-//     //     // 	"process.env": {
-//     //     // 		...envFilter,
-//     //     // 	},
-//     //     // }),
-//     //     new Dotenv(),
-//     //     new LoadablePlugin(),
-//     //     new CopyPlugin({
-//     //       patterns: [{ from: "public", to: "" }],
-//     //     }),
-//     //     new MiniCssExtractPlugin({
-//     //       filename: "[name].[contenthash].css",
-//     //       chunkFilename: "[id].[contenthash].css",
-//     //     }),
-//     //     // new BundleAnalyzerPlugin(),
-//     //   ],
-//     mode: "development",
-//     module: {
-//         rules: [
-//             {
-//                 test: /\.js$/,
-//                 exclude: /node_modules/,
-//                 use: ["babel-loader"],
-//             },
-//             {
-//                 test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
-//                 type: "asset/resource",
-//             },
-//             {
-//                 test: /\.html/,
-//                 type: "asset/resource",
-//                 generator: {
-//                     assets: "/dist/_react/assets/[name][ext][query]",
-//                 },
-//             },
-//             {
-//                 test: /\.(woff(2)?|eot|ttf|otf)$/,
-//                 type: "asset/inline",
-//             },
-//             // {
-//             //     test: /\.css$/i,
-//             //     use: [MiniCssExtractPlugin.loader, "css-loader"],
-//             // },
-//         ],
-//     },
-//     devtool: "inline-source-map",
-//     devServer: {
-//         static: {
-//             directory: path.resolve(__dirname, "./dist"),
-//         },
-//         historyApiFallback: true,
-//         open: true,
-//         hot: true,
-//         port: 3000,
-//     },
-//     output: {
-//         path: path.resolve(__dirname, "./dist"),
-//         filename: "[name].js",
-//         // chunkFilename: "[name].[contenthash].chunk.js",
-//         // clean: true,
-//         // assetModuleFilename: "assets/[name][ext][query]",
-//         publicPath: `http://localhost:3000/`
-//     },
-// }
+module.exports = [client, server]
