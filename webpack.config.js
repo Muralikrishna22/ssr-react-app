@@ -20,20 +20,6 @@ const config = (entry, outputPath, target) => {
             filename: 'styles.css',
         })],
         target,
-        // create chunks for css
-        // optimization: {
-        //     splitChunks: {
-        //         cacheGroups: {
-        //             styles: {
-        //                 name: 'styles',
-        //                 test: /\.css$/,
-        //                 chunks: 'all',
-        //                 enforce: true,
-        //             },
-        //         },
-        //     },
-        // },
-
         module: {
             rules: [
                 {
