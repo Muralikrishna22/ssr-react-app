@@ -13,7 +13,7 @@ const HtmlTemplate = () => {
             <title>React App</title>
             <link rel="manifest" href="/manifest.json" />
             <link rel="manifest" href="/favicon.ico">
-            <script src="/client/bundle.js"></script>
+            <script src="/client/main.js"></script>
             <link rel="stylesheet" href="client/styles.css">
             </head>
             <body>

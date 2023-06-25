@@ -3,30 +3,37 @@ const { ModuleFederationPlugin } = require("webpack").container;
 const { NodeFederationPlugin, StreamingTargetPlugin } = require("@module-federation/node");
 
 module.exports = {
-    client: new ModuleFederationPlugin({
-        name: "ssr-react-app",
-        filename: "container.js",
-        remotes: {
-            remote1: "remote1@http://localhost:3002/client/remoteEntry.js",
-        },
-        shared: [{ "react": deps.react, "react-dom": deps["react-dom"] }],
-    }),
+    client:
+        new ModuleFederationPlugin({
+            name: "ssr-react-app",
+            filename: "container.js",
+            remotes: {
+                remote1: "http://localhost:3002/client/remoteEntry.js",
+            },
+            shared: {
+                react: { singleton: true, requiredVersion: deps['react'] },
+                "react-dom": { singleton: true, requiredVersion: deps["react-dom"] },
+            },
+        }),
     server: [
         new NodeFederationPlugin({
             name: "ssr-react-app",
             library: { type: "commonjs-module" },
             filename: "remoteEntry.js",
             remotes: {
-                remote1: "remote1@http://localhost:3002/server/remoteEntry.js"
+                remote1: "http://localhost:3002/server/remoteEntry.js",
             },
-            shared: [{ "react": deps.react, "react-dom": deps["react-dom"] }],
+            shared: {
+                react: { singleton: true, requiredVersion: deps['react'] },
+                "react-dom": { singleton: true, requiredVersion: deps["react-dom"] },
+            },
         }),
         new StreamingTargetPlugin({
             name: "ssr-react-app",
             library: { type: "commonjs-module" },
             remotes: {
-                remote1: "remote1@http://localhost:3002/server/remoteEntry.js"
+                remote1: "http://localhost:3002/server/remoteEntry.js",
             },
         }),
-    ]
-}
+    ],
+};

@@ -18,15 +18,20 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                    },
+                    // {
+                    //     loader: MiniCssExtractPlugin.loader,
+                    // },
                     'css-loader'
                 ],
             },
             {
                 test: /express\/lib\//,
                 loader: 'ignore-loader',
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules\/(express|react|react-dom)\//,
+                // ...other loaders and options
             },
         ],
     },

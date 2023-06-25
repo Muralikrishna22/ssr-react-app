@@ -7,12 +7,12 @@ module.exports = merge(shared, {
     name: "client",
     target: "web",
     entry: ["@babel/polyfill", path.resolve(__dirname, "../src/client/index.js")],
-    mode: "production",
-    devtool: "source-map",
+    mode: "development",
+    // devtool: "source-map",
     output: {
         path: path.resolve(__dirname, "../dist/client"),
         filename: "[name].js",
-        chunkFilename: "[name].js",
+        // chunkFilename: "[name].js",
         publicPath: "http://localhost:3000/static/",
     },
     plugins: [
