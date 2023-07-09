@@ -2,6 +2,14 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import path from 'path';
 import HtmlTemplate from './htmlTemplate';
+import { Provider } from 'react-redux'
+import store from '../store';
+import React from 'react';
+import { StaticRouter } from 'react-router-dom/server';
+import { matchPath } from 'react-router-dom';
+import CustomRoutes from '../client/routes';
+import ROUTES from '../client/routes/routes';
+import { setAxiosDefaults } from './middleware'
 
 const app = express();
 const port = 3000;
@@ -23,8 +31,22 @@ app.get('/*', (req, res) => {
         }));
     }
 
-    const content = HtmlTemplate();
-    res.status(200).send(content);
+    setAxiosDefaults()
+    const match = ROUTES.find((route) => matchPath(req.url, route.path));
+    let data = match?.serverSideData(req, res, store)
+
+    if (data) {
+        let jsx = renderToString(
+            <StaticRouter location={req.url}>
+                <Provider store={store}>
+                    <CustomRoutes />
+                </Provider>
+            </StaticRouter>
+        )
+        // let html = <HtmlTemplate jsx={jsx} />
+        let html = HtmlTemplate(jsx)
+        res.status(200).send(html);
+    }
 });
 
 app.listen(port, () => {

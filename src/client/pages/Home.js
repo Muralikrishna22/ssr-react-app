@@ -1,19 +1,24 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { getProducts } from '../../store/actions'
+import { useSelector } from 'react-redux'
 
 function Home() {
+    const products = useSelector((state) => state?.products)
     return (
         <div>
             <header>
                 <h1>E-commerce Website</h1>
+                <Link to={'/'}><button>Back</button></Link>
             </header>
 
             <main>
-                {Array.from(Array(100).keys())?.map((num) => (
-                    <div className="product" key={num}>
+                {products?.map((obj) => (
+                    <div className="product" key={obj.id}>
                         <div className="details">
-                            <h2>Product {num}</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p>$19.99</p>
+                            <h2> {obj.title}</h2>
+                            <p>{obj.description}</p>
+                            <p>${obj.price}</p>
                             <button>Add to Cart</button>
                         </div>
                     </div>
@@ -21,6 +26,13 @@ function Home() {
             </main>
         </div>
     )
+}
+
+export const homeServerSideData = async (req, res, store) => {
+    await store.dispatch(getProducts())
+    return {
+        status: 200
+    }
 }
 
 export default Home
